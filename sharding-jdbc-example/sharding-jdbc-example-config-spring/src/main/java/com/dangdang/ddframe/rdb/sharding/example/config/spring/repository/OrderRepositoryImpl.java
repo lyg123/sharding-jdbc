@@ -32,8 +32,8 @@ public class OrderRepositoryImpl implements OrderRepository {
     
     @Override
     public void insert() {
-        String orderSql = "INSERT INTO `t_order` (`order_id`, `user_id`, `status`) VALUES (?, ?, ?)";
-        String orderItemSql = "INSERT INTO `t_order_item` (`order_item_id`, `order_id`, `user_id`, `status`) VALUES (?, ?, ?, ?)";
+        String orderSql = "INSERT INTO t_order (order_id, user_id, status) VALUES (?, ?, ?)";
+        String orderItemSql = "INSERT INTO t_order_item (order_item_id, order_id, user_id, status) VALUES (?, ?, ?, ?)";
         for (int orderId = 1; orderId <= 4; orderId++) {
             for (int userId = 1; userId <= 2; userId++) {
                 try (Connection connection = shardingDataSource.getConnection()) {
@@ -63,8 +63,8 @@ public class OrderRepositoryImpl implements OrderRepository {
     
     @Override
     public void delete() {
-        String orderSql = "DELETE FROM `t_order`";
-        String orderItemSql = "DELETE FROM `t_order_item`";
+        String orderSql = "DELETE FROM t_order";
+        String orderItemSql = "DELETE FROM t_order_item";
         try (Connection connection = shardingDataSource.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(orderSql);
             preparedStatement.execute();
