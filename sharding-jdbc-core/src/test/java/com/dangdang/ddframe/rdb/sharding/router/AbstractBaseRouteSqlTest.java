@@ -60,10 +60,11 @@ public abstract class AbstractBaseRouteSqlTest {
         dataSourceMap.put("ds_1", null);
         DataSourceRule dataSourceRule = new DataSourceRule(dataSourceMap);
         TableRule orderTableRule = TableRule.builder("order").actualTables(Lists.newArrayList("order_0", "order_1")).dataSourceRule(dataSourceRule).build();
+        TableRule orderqTableRule = TableRule.builder("orderq").actualTables(Lists.newArrayList("orderq_0", "orderq_1")).dataSourceRule(dataSourceRule).build();
         TableRule orderItemTableRule = TableRule.builder("order_item").actualTables(Lists.newArrayList("order_item_0", "order_item_1")).dataSourceRule(dataSourceRule).build();
         TableRule orderAttrTableRule = TableRule.builder("order_attr").actualTables(Lists.newArrayList("ds_0.order_attr_a", "ds_1.order_attr_b")).dataSourceRule(dataSourceRule)
                 .tableShardingStrategy(new TableShardingStrategy("order_id", new OrderAttrShardingAlgorithm())).build();
-        shardingRule = ShardingRule.builder().dataSourceRule(dataSourceRule).tableRules(Lists.newArrayList(orderTableRule, orderItemTableRule, orderAttrTableRule))
+        shardingRule = ShardingRule.builder().dataSourceRule(dataSourceRule).tableRules(Lists.newArrayList(orderTableRule, orderqTableRule, orderItemTableRule, orderAttrTableRule))
                 .bindingTableRules(Collections.singletonList(new BindingTableRule(Arrays.asList(orderTableRule, orderItemTableRule))))
                 .databaseShardingStrategy(new DatabaseShardingStrategy("order_id", new OrderShardingAlgorithm()))
                 .tableShardingStrategy(new TableShardingStrategy("order_id", new OrderShardingAlgorithm())).build();
@@ -84,7 +85,8 @@ public abstract class AbstractBaseRouteSqlTest {
     
     protected void assertMultipleTargets(final String originSql, final List<Object> parameters, final int expectedSize, 
             final Collection<String> targetDataSources, final Collection<String> targetSQLs) throws SQLParserException {
-        SQLRouteResult actual = new SQLRouteEngine(getShardingRule(), DatabaseType.MySQL).route(originSql, parameters);
+//        SQLRouteResult actual = new SQLRouteEngine(getShardingRule(), DatabaseType.MySQL).route(originSql, parameters);
+        SQLRouteResult actual = new SQLRouteEngine(getShardingRule(), DatabaseType.Oracle).route(originSql, parameters);
         assertThat(actual.getExecutionUnits().size(), is(expectedSize));
         Set<String> actualDataSources = new HashSet<>(Collections2.transform(actual.getExecutionUnits(), new Function<SQLExecutionUnit, String>() {
             

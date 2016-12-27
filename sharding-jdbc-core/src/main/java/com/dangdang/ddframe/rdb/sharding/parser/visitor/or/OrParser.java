@@ -19,7 +19,10 @@ package com.dangdang.ddframe.rdb.sharding.parser.visitor.or;
 
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.visitor.SQLASTOutputVisitor;
+import com.dangdang.ddframe.rdb.sharding.constants.DatabaseType;
+import com.dangdang.ddframe.rdb.sharding.exception.DatabaseTypeUnsupportedException;
 import com.dangdang.ddframe.rdb.sharding.parser.result.SQLParsedResult;
+import com.dangdang.ddframe.rdb.sharding.parser.visitor.SQLVisitor;
 import com.dangdang.ddframe.rdb.sharding.parser.visitor.or.node.AbstractOrASTNode;
 import com.google.common.base.Optional;
 
@@ -36,7 +39,15 @@ public final class OrParser {
     
     public OrParser(final SQLStatement sqlStatement, final SQLASTOutputVisitor dependencyVisitor) {
         this.sqlStatement = sqlStatement;
-        orVisitor = new OrVisitor(dependencyVisitor);
+        DatabaseType databaseType = ((SQLVisitor)dependencyVisitor).getDatabaseType();
+        if(DatabaseType.MySQL.equals(databaseType)) {
+        	  orVisitor = new MySQLOrVisitor(dependencyVisitor);
+		} else if(DatabaseType.Oracle.equals(databaseType)){
+			 orVisitor = new OracleOrVisitor(dependencyVisitor);
+		} else {
+			orVisitor = null;
+			new DatabaseTypeUnsupportedException(databaseType.name()); 
+		}
     }
     
     /**

@@ -38,7 +38,7 @@ public final class UnsupportedOperationPreparedStatementTest extends AbstractSha
     @Before
     public void init() throws SQLException {
         shardingConnection = getShardingDataSource().getConnection();
-        actual = shardingConnection.prepareStatement("SELECT user_id AS `uid` FROM `t_order` WHERE `status` = 'init'");
+        actual = shardingConnection.prepareStatement("SELECT user_id AS uid FROM t_order WHERE status = 'init'");
     }
     
     @After

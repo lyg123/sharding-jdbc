@@ -49,7 +49,7 @@ public final class ConnectionAdapterTest extends AbstractShardingDataBasesOnlyDB
         try (ShardingConnection actual = shardingDataSource.getConnection()) {
             assertTrue(actual.getAutoCommit());
             actual.setAutoCommit(false);
-            actual.createStatement().executeQuery("SELECT `user_id` FROM `t_order` WHERE `status` = 'init'");
+            actual.createStatement().executeQuery("SELECT user_id FROM t_order WHERE status = 'init'");
             assertAutoCommit(actual, false);
             actual.setAutoCommit(true);
             assertAutoCommit(actual, true);
@@ -69,7 +69,7 @@ public final class ConnectionAdapterTest extends AbstractShardingDataBasesOnlyDB
     public void assertCommit() throws SQLException {
         try (ShardingConnection actual = shardingDataSource.getConnection()) {
             actual.setAutoCommit(false);
-            actual.createStatement().executeQuery("SELECT `user_id` FROM `t_order` WHERE `status` = 'init'");
+            actual.createStatement().executeQuery("SELECT user_id FROM t_order WHERE status = 'init'");
             actual.commit();
         }
     }
@@ -79,7 +79,7 @@ public final class ConnectionAdapterTest extends AbstractShardingDataBasesOnlyDB
     public void assertRollback() throws SQLException {
         try (ShardingConnection actual = shardingDataSource.getConnection()) {
             actual.setAutoCommit(false);
-            actual.createStatement().executeQuery("SELECT `user_id` FROM `t_order` WHERE `status` = 'init'");
+            actual.createStatement().executeQuery("SELECT user_id FROM t_order WHERE status = 'init'");
             actual.rollback();
         }
     }
@@ -87,7 +87,7 @@ public final class ConnectionAdapterTest extends AbstractShardingDataBasesOnlyDB
     @Test
     public void assertClose() throws SQLException {
         try (ShardingConnection actual = shardingDataSource.getConnection()) {
-            actual.createStatement().executeQuery("SELECT `user_id` FROM `t_order` WHERE `status` = 'init'");
+            actual.createStatement().executeQuery("SELECT user_id FROM t_order WHERE status = 'init'");
             assertClose(actual, false);
             actual.close();
             assertClose(actual, true);
@@ -107,7 +107,7 @@ public final class ConnectionAdapterTest extends AbstractShardingDataBasesOnlyDB
         try (ShardingConnection actual = shardingDataSource.getConnection()) {
             assertTrue(actual.isReadOnly());
             actual.setReadOnly(false);
-            actual.createStatement().executeQuery("SELECT `user_id` FROM `t_order` WHERE `status` = 'init'");
+            actual.createStatement().executeQuery("SELECT user_id FROM t_order WHERE status = 'init'");
             assertReadOnly(actual, false);
             actual.setReadOnly(true);
             assertReadOnly(actual, true);
@@ -132,7 +132,7 @@ public final class ConnectionAdapterTest extends AbstractShardingDataBasesOnlyDB
         try (ShardingConnection actual = shardingDataSource.getConnection()) {
             assertThat(actual.getTransactionIsolation(), is(Connection.TRANSACTION_READ_UNCOMMITTED));
             actual.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
-            actual.createStatement().executeQuery("SELECT `user_id` FROM `t_order` WHERE `status` = 'init'");
+            actual.createStatement().executeQuery("SELECT user_id FROM t_order WHERE status = 'init'");
             assertTransactionIsolation(actual, Connection.TRANSACTION_SERIALIZABLE);
             actual.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
             assertTransactionIsolation(actual, Connection.TRANSACTION_READ_COMMITTED);

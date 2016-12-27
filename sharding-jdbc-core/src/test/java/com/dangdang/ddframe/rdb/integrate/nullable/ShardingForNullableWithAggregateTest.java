@@ -44,14 +44,14 @@ public final class ShardingForNullableWithAggregateTest extends AbstractSharding
     
     @Test
     public void assertSelectCount() throws SQLException, DatabaseUnitException {
-        String sql = "SELECT COUNT(`user_id`) FROM `t_order`";
+        String sql = "SELECT COUNT(user_id) FROM t_order";
         try (Connection conn = shardingDataSource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             assertThat(rs.next(), is(true));
-            assertThat(rs.getInt("COUNT(`user_id`)"), is(0));
+            assertThat(rs.getInt("COUNT(user_id)"), is(0));
             assertThat(rs.getInt(1), is(0));
-            assertThat(rs.getObject("COUNT(`user_id`)"), CoreMatchers.<Object>is(new BigDecimal("0")));
+            assertThat(rs.getObject("COUNT(user_id)"), CoreMatchers.<Object>is(new BigDecimal("0")));
             assertThat(rs.getObject(1), CoreMatchers.<Object>is(new BigDecimal("0")));
             assertThat(rs.next(), is(false));
         }
@@ -59,14 +59,14 @@ public final class ShardingForNullableWithAggregateTest extends AbstractSharding
     
     @Test
     public void assertSelectSum() throws SQLException, DatabaseUnitException {
-        String sql = "SELECT SUM(`user_id`) FROM `t_order`";
+        String sql = "SELECT SUM(user_id) FROM t_order";
         try (Connection conn = shardingDataSource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             assertThat(rs.next(), is(true));
-            assertThat(rs.getInt("SUM(`user_id`)"), is(0));
+            assertThat(rs.getInt("SUM(user_id)"), is(0));
             assertThat(rs.getInt(1), is(0));
-            assertThat(rs.getObject("SUM(`user_id`)"), nullValue());
+            assertThat(rs.getObject("SUM(user_id)"), nullValue());
             assertThat(rs.getObject(1), nullValue());
             assertThat(rs.next(), is(false));
         }
@@ -74,14 +74,14 @@ public final class ShardingForNullableWithAggregateTest extends AbstractSharding
     
     @Test
     public void assertSelectMax() throws SQLException, DatabaseUnitException {
-        String sql = "SELECT MAX(`user_id`) FROM `t_order`";
+        String sql = "SELECT MAX(user_id) FROM t_order";
         try (Connection conn = shardingDataSource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             assertThat(rs.next(), is(true));
-            assertThat(rs.getInt("MAX(`user_id`)"), is(0));
+            assertThat(rs.getInt("MAX(user_id)"), is(0));
             assertThat(rs.getInt(1), is(0));
-            assertThat(rs.getObject("MAX(`user_id`)"), nullValue());
+            assertThat(rs.getObject("MAX(user_id)"), nullValue());
             assertThat(rs.getObject(1), nullValue());
             assertThat(rs.next(), is(false));
         }
@@ -89,14 +89,14 @@ public final class ShardingForNullableWithAggregateTest extends AbstractSharding
     
     @Test
     public void assertSelectMin() throws SQLException, DatabaseUnitException {
-        String sql = "SELECT MIN(`user_id`) FROM `t_order`";
+        String sql = "SELECT MIN(user_id) FROM t_order";
         try (Connection conn = shardingDataSource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             assertThat(rs.next(), is(true));
-            assertThat(rs.getInt("MIN(`user_id`)"), is(0));
+            assertThat(rs.getInt("MIN(user_id)"), is(0));
             assertThat(rs.getInt(1), is(0));
-            assertThat(rs.getObject("MIN(`user_id`)"), nullValue());
+            assertThat(rs.getObject("MIN(user_id)"), nullValue());
             assertThat(rs.getObject(1), nullValue());
             assertThat(rs.next(), is(false));
         }
@@ -104,14 +104,14 @@ public final class ShardingForNullableWithAggregateTest extends AbstractSharding
     
     @Test
     public void assertSelectAvg() throws SQLException, DatabaseUnitException {
-        String sql = "SELECT AVG(`user_id`) FROM `t_order`";
+        String sql = "SELECT AVG(user_id) FROM t_order";
         try (Connection conn = shardingDataSource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             assertThat(rs.next(), is(true));
-            assertThat(rs.getInt("AVG(`user_id`)"), is(0));
+            assertThat(rs.getInt("AVG(user_id)"), is(0));
             assertThat(rs.getInt(1), is(0));
-            assertThat(rs.getObject("AVG(`user_id`)"), nullValue());
+            assertThat(rs.getObject("AVG(user_id)"), nullValue());
             assertThat(rs.getObject(1), nullValue());
             assertThat(rs.next(), is(false));
         }

@@ -45,12 +45,13 @@ public final class DataBaseEnvironment {
     private void fillData() {
         DRIVER_CLASS_NAME.put(DatabaseType.H2, org.h2.Driver.class);
         DRIVER_CLASS_NAME.put(DatabaseType.MySQL, com.mysql.jdbc.Driver.class);
-        URL.put(DatabaseType.H2, "jdbc:h2:mem:%s;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;MODE=MYSQL");
+//        URL.put(DatabaseType.H2, "jdbc:h2:mem:%s;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;MODE=MYSQL");
+        URL.put(DatabaseType.H2, "jdbc:h2:mem:%s;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;MODE=ORACLE");
         URL.put(DatabaseType.MySQL, "jdbc:mysql://localhost:3306/%s");
         USERNAME.put(DatabaseType.H2, "sa");
         USERNAME.put(DatabaseType.MySQL, "root");
         PASSWORD.put(DatabaseType.H2, "");
-        PASSWORD.put(DatabaseType.MySQL, "");
+        PASSWORD.put(DatabaseType.MySQL, "123456");
     }
     
     public String getDriverClassName() {

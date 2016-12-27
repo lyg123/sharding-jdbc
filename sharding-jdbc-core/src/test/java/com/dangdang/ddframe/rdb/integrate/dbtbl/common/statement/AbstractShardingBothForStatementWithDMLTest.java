@@ -45,7 +45,7 @@ public abstract class AbstractShardingBothForStatementWithDMLTest extends Abstra
     
     @Test
     public void assertInsert() throws SQLException, DatabaseUnitException {
-        String sql = "INSERT INTO `t_order` (`order_id`, `user_id`, `status`) VALUES (%s, %s, '%s')";
+        String sql = "INSERT INTO t_order (order_id, user_id, status) VALUES (%s, %s, '%s')";
         for (int i = 1; i <= 10; i++) {
             for (int j = 1; j <= 10; j++) {
                 try (Connection connection = shardingDataSource.getConnection("", "")) {
@@ -59,7 +59,7 @@ public abstract class AbstractShardingBothForStatementWithDMLTest extends Abstra
     
     @Test
     public void assertUpdate() throws SQLException, DatabaseUnitException {
-        String sql = "UPDATE `t_order` SET `status` = '%s' WHERE `order_id` = %s AND `user_id` = %s";
+        String sql = "UPDATE t_order SET status = '%s' WHERE order_id = %s AND user_id = %s";
         for (int i = 10; i < 20; i++) {
             for (int j = 0; j < 10; j++) {
                 try (Connection connection = shardingDataSource.getConnection()) {
@@ -73,7 +73,7 @@ public abstract class AbstractShardingBothForStatementWithDMLTest extends Abstra
     
     @Test
     public void assertDelete() throws SQLException, DatabaseUnitException {
-        String sql = "DELETE `t_order` WHERE `order_id` = %s AND `user_id` = %s";
+        String sql = "DELETE t_order WHERE order_id = %s AND user_id = %s";
         for (int i = 10; i < 20; i++) {
             for (int j = 0; j < 10; j++) {
                 try (Connection connection = shardingDataSource.getConnection()) {
@@ -90,7 +90,7 @@ public abstract class AbstractShardingBothForStatementWithDMLTest extends Abstra
             for (int j = 0; j < 10; j++) {
                 assertDataSet(String.format("integrate/dataset/dbtbl/expect/%s/dbtbl_%s.xml", expectedDataSetPattern, i), 
                         shardingDataSource.getConnection().getConnection(String.format("dataSource_dbtbl_%s", i), SQLStatementType.SELECT), 
-                        String.format("t_order_%s", j), String.format("SELECT * FROM `t_order_%s` WHERE `status`=?", j), status);
+                        String.format("t_order_%s", j), String.format("SELECT * FROM t_order_%s WHERE status=?", j), status);
             }
         }
     }

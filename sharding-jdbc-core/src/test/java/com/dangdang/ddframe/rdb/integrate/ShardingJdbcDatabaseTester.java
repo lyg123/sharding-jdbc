@@ -22,6 +22,7 @@ import org.dbunit.database.DatabaseConfig;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.ext.h2.H2DataTypeFactory;
 import org.dbunit.ext.mysql.MySqlDataTypeFactory;
+import org.dbunit.ext.oracle.OracleDataTypeFactory;
 
 public final class ShardingJdbcDatabaseTester extends JdbcDatabaseTester {
     
@@ -40,7 +41,9 @@ public final class ShardingJdbcDatabaseTester extends JdbcDatabaseTester {
             result.getConfig().setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new H2DataTypeFactory());
         } else if (com.mysql.jdbc.Driver.class.getName().equals(driverClass)) {
             result.getConfig().setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new MySqlDataTypeFactory());
-        }
+	    } else if (oracle.jdbc.driver.OracleDriver.class.getName().equals(driverClass)) {
+	    	result.getConfig().setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new OracleDataTypeFactory());
+	    }
         return result;
     }
 }

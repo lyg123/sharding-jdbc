@@ -18,6 +18,7 @@
 package com.dangdang.ddframe.rdb.integrate;
 
 import com.dangdang.ddframe.rdb.sharding.constants.DatabaseType;
+
 import org.apache.commons.dbcp.BasicDataSource;
 import org.dbunit.DatabaseUnitException;
 import org.dbunit.IDatabaseTester;
@@ -27,11 +28,13 @@ import org.dbunit.dataset.ITable;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.ext.h2.H2Connection;
 import org.dbunit.ext.mysql.MySqlConnection;
+import org.dbunit.ext.oracle.OracleConnection;
 import org.dbunit.operation.DatabaseOperation;
 import org.h2.tools.RunScript;
 import org.junit.Before;
 
 import javax.sql.DataSource;
+
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -137,6 +140,8 @@ public abstract class AbstractDBUnitTest {
                 return new H2Connection(connection, "PUBLIC");
             case MySQL: 
                 return new MySqlConnection(connection, "PUBLIC");
+            case Oracle: 
+            	return new OracleConnection(connection, "PUBLIC");
             default: 
                 throw new UnsupportedOperationException(dbEnv.getDatabaseType().name());
         }

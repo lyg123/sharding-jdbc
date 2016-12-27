@@ -42,7 +42,7 @@ public final class ShardingTablesOnlyForPStatementWithDMLTest extends AbstractSh
     
     @Test
     public void assertInsert() throws SQLException, DatabaseUnitException {
-        String sql = "INSERT INTO `t_order` (`order_id`, `user_id`, `status`) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO t_order (order_id, user_id, status) VALUES (?, ?, ?)";
         try (Connection connection = shardingDataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             for (int i = 1; i <= 10; i++) {
@@ -57,7 +57,7 @@ public final class ShardingTablesOnlyForPStatementWithDMLTest extends AbstractSh
     
     @Test
     public void assertInsertWithAllPlaceholders() throws SQLException, DatabaseUnitException {
-        String sql = "INSERT INTO `t_order` (`order_id`, `user_id`, `status`) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO t_order (order_id, user_id, status) VALUES (?, ?, ?)";
         try (Connection connection = shardingDataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             for (int i = 1; i <= 10; i++) {
@@ -72,7 +72,7 @@ public final class ShardingTablesOnlyForPStatementWithDMLTest extends AbstractSh
     
     @Test
     public void assertInsertWithoutPlaceholder() throws SQLException, DatabaseUnitException {
-        String sql = "INSERT INTO `t_order` (`order_id`, `user_id`, `status`) VALUES (%s, %s, 'insert')";
+        String sql = "INSERT INTO t_order (order_id, user_id, status) VALUES (%s, %s, 'insert')";
         for (int i = 1; i <= 10; i++) {
             try (Connection connection = shardingDataSource.getConnection();
                  PreparedStatement preparedStatement = connection.prepareStatement(String.format(sql, i, i))) {
@@ -84,7 +84,7 @@ public final class ShardingTablesOnlyForPStatementWithDMLTest extends AbstractSh
     
     @Test
     public void assertInsertWithPlaceholdersForShardingKeys() throws SQLException, DatabaseUnitException {
-        String sql = "INSERT INTO `t_order` (`order_id`, `user_id`, `status`) VALUES (%s, %s, ?)";
+        String sql = "INSERT INTO t_order (order_id, user_id, status) VALUES (%s, %s, ?)";
         for (int i = 1; i <= 10; i++) {
             try (Connection connection = shardingDataSource.getConnection();
                  PreparedStatement preparedStatement = connection.prepareStatement(String.format(sql, i, i))) {
@@ -97,7 +97,7 @@ public final class ShardingTablesOnlyForPStatementWithDMLTest extends AbstractSh
     
     @Test
     public void assertInsertWithPlaceholdersForNotShardingKeys() throws SQLException, DatabaseUnitException {
-        String sql = "INSERT INTO `t_order` (`order_id`, `user_id`, `status`) VALUES (%s, %s, ?)";
+        String sql = "INSERT INTO t_order (order_id, user_id, status) VALUES (%s, %s, ?)";
         for (int i = 1; i <= 10; i++) {
             try (Connection connection = shardingDataSource.getConnection();
                  PreparedStatement preparedStatement = connection.prepareStatement(String.format(sql, i, i))) {
@@ -111,7 +111,7 @@ public final class ShardingTablesOnlyForPStatementWithDMLTest extends AbstractSh
     @Test
     public void assertUpdateWithoutAlias() throws SQLException, DatabaseUnitException {
         ShardingDataSource shardingDataSource = getShardingDataSource();
-        String sql = "UPDATE `t_order` SET `status` = ? WHERE `order_id` = ? AND `user_id` = ?";
+        String sql = "UPDATE t_order SET status = ? WHERE order_id = ? AND user_id = ?";
         try (Connection connection = shardingDataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             for (int i = 10; i < 12; i++) {
@@ -129,7 +129,7 @@ public final class ShardingTablesOnlyForPStatementWithDMLTest extends AbstractSh
     @Test
     public void assertUpdateWithAlias() throws SQLException, DatabaseUnitException {
         ShardingDataSource shardingDataSource = getShardingDataSource();
-        String sql = "UPDATE `t_order` as o SET o.`status` = ? WHERE o.`order_id` = ? AND o.`user_id` = ?";
+        String sql = "UPDATE t_order as o SET o.status = ? WHERE o.order_id = ? AND o.user_id = ?";
         try (Connection connection = shardingDataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             for (int i = 10; i < 12; i++) {
@@ -147,7 +147,7 @@ public final class ShardingTablesOnlyForPStatementWithDMLTest extends AbstractSh
     @Test
     public void assertUpdateWithoutShardingValue() throws SQLException, DatabaseUnitException {
         ShardingDataSource shardingDataSource = getShardingDataSource();
-        String sql = "UPDATE `t_order` SET `status` = ? WHERE `status` = ?";
+        String sql = "UPDATE t_order SET status = ? WHERE status = ?";
         try (Connection connection = shardingDataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, "updated");
@@ -160,7 +160,7 @@ public final class ShardingTablesOnlyForPStatementWithDMLTest extends AbstractSh
     @Test
     public void assertDeleteWithoutAlias() throws SQLException, DatabaseUnitException {
         ShardingDataSource shardingDataSource = getShardingDataSource();
-        String sql = "DELETE `t_order` WHERE `order_id` = ? AND `user_id` = ? AND `status` = ?";
+        String sql = "DELETE t_order WHERE order_id = ? AND user_id = ? AND status = ?";
         try (Connection connection = shardingDataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             for (int i = 10; i < 12; i++) {
@@ -178,7 +178,7 @@ public final class ShardingTablesOnlyForPStatementWithDMLTest extends AbstractSh
     @Test
     public void assertDeleteWithoutShardingValue() throws SQLException, DatabaseUnitException {
         ShardingDataSource shardingDataSource = getShardingDataSource();
-        String sql = "DELETE `t_order` WHERE `status` = ?";
+        String sql = "DELETE t_order WHERE status = ?";
         try (Connection connection = shardingDataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, "init");
@@ -191,7 +191,7 @@ public final class ShardingTablesOnlyForPStatementWithDMLTest extends AbstractSh
         for (int i = 0; i < 10; i++) {
             assertDataSet(String.format("integrate/dataset/tbl/expect/%s/db_single.xml", expectedDataSetPattern), 
                     shardingDataSource.getConnection().getConnection("dataSource_db_single", SQLStatementType.SELECT), 
-                    String.format("t_order_%s", i), String.format("SELECT * FROM `t_order_%s` WHERE `status`=?", i), status);
+                    String.format("t_order_%s", i), String.format("SELECT * FROM t_order_%s WHERE status=?", i), status);
         }
     }
 }

@@ -17,14 +17,14 @@
 
 package com.dangdang.ddframe.rdb.sharding.parser.visitor.or.node;
 
+import lombok.AllArgsConstructor;
+
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.expr.SQLBinaryOpExpr;
 import com.alibaba.druid.sql.ast.expr.SQLBinaryOperator;
 import com.alibaba.druid.wall.spi.WallVisitorUtils;
 import com.dangdang.ddframe.rdb.sharding.parser.visitor.or.OrVisitor;
 import com.google.common.base.Optional;
-
-import lombok.AllArgsConstructor;
 
 /**
  * 只包含OR的节点.

@@ -41,11 +41,13 @@ import com.dangdang.ddframe.rdb.sharding.parser.result.router.Condition.Column;
 import com.dangdang.ddframe.rdb.sharding.parser.result.router.ConditionContext;
 import com.dangdang.ddframe.rdb.sharding.parser.result.router.Table;
 import com.dangdang.ddframe.rdb.sharding.parser.visitor.basic.mysql.MySQLEvalVisitor;
+import com.dangdang.ddframe.rdb.sharding.parser.visitor.basic.oracle.OracleEvalVisitor;
 import com.dangdang.ddframe.rdb.sharding.util.SQLUtil;
 import com.google.common.base.Optional;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -227,9 +229,15 @@ public final class ParseContext {
         SQLEvalVisitor visitor;
         switch (databaseType.name().toLowerCase()) {
             case JdbcUtils.MYSQL:
-            case JdbcUtils.H2: 
-                visitor = new MySQLEvalVisitor();
+            	visitor = new MySQLEvalVisitor();
                 break;
+            case JdbcUtils.H2: 
+//            	visitor = new MySQLEvalVisitor();
+                visitor = new OracleEvalVisitor();
+                break;
+            case JdbcUtils.ORACLE:
+            	visitor = new OracleEvalVisitor();
+            	break;
             default: 
                 visitor = SQLEvalVisitorUtils.createEvalVisitor(databaseType.name());    
         }

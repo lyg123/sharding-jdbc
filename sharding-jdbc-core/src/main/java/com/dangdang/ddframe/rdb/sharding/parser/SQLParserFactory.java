@@ -68,6 +68,7 @@ public final class SQLParserFactory {
     private static SQLStatementParser getSQLStatementParser(final DatabaseType databaseType, final String sql) {
         switch (databaseType) {
             case H2: 
+            	return new OracleStatementParser(sql);
             case MySQL: 
                 return new MySqlStatementParser(sql);
             case Oracle: 

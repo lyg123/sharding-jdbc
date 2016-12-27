@@ -43,7 +43,7 @@ public final class ShardingMasterSlaveForPStatementWithDMLTest extends AbstractS
     
     @Test
     public void assertInsertWithAllPlaceholders() throws SQLException, DatabaseUnitException {
-        String sql = "INSERT INTO `t_order` (`order_id`, `user_id`, `status`) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO t_order (order_id, user_id, status) VALUES (?, ?, ?)";
         for (int i = 1; i <= 10; i++) {
             for (int j = 1; j <= 10; j++) {
                 try (Connection connection = shardingDataSource.getConnection()) {
@@ -60,7 +60,7 @@ public final class ShardingMasterSlaveForPStatementWithDMLTest extends AbstractS
     
     @Test
     public void assertInsertWithHint() throws SQLException, DatabaseUnitException {
-        String sql = "INSERT INTO `t_order` (`order_id`, `user_id`, `status`) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO t_order (order_id, user_id, status) VALUES (?, ?, ?)";
         for (int i = 1; i <= 10; i++) {
             for (int j = 1; j <= 10; j++) {
                 try (
@@ -85,7 +85,7 @@ public final class ShardingMasterSlaveForPStatementWithDMLTest extends AbstractS
     
     @Test
     public void assertInsertWithoutPlaceholder() throws SQLException, DatabaseUnitException {
-        String sql = "INSERT INTO `t_order` (`order_id`, `user_id`, `status`) VALUES (%s, %s, 'insert')";
+        String sql = "INSERT INTO t_order (order_id, user_id, status) VALUES (%s, %s, 'insert')";
         for (int i = 1; i <= 10; i++) {
             for (int j = 1; j <= 10; j++) {
                 try (Connection connection = shardingDataSource.getConnection()) {
@@ -99,7 +99,7 @@ public final class ShardingMasterSlaveForPStatementWithDMLTest extends AbstractS
     
     @Test
     public void assertInsertWithPlaceholdersForShardingKeys() throws SQLException, DatabaseUnitException {
-        String sql = "INSERT INTO `t_order` (`order_id`, `user_id`, `status`) VALUES (%s, %s, ?)";
+        String sql = "INSERT INTO t_order (order_id, user_id, status) VALUES (%s, %s, ?)";
         for (int i = 1; i <= 10; i++) {
             for (int j = 1; j <= 10; j++) {
                 try (Connection connection = shardingDataSource.getConnection()) {
@@ -114,7 +114,7 @@ public final class ShardingMasterSlaveForPStatementWithDMLTest extends AbstractS
     
     @Test
     public void assertInsertWithPlaceholdersForNotShardingKeys() throws SQLException, DatabaseUnitException {
-        String sql = "INSERT INTO `t_order` (`order_id`, `user_id`, `status`) VALUES (%s, %s, ?)";
+        String sql = "INSERT INTO t_order (order_id, user_id, status) VALUES (%s, %s, ?)";
         for (int i = 1; i <= 10; i++) {
             for (int j = 1; j <= 10; j++) {
                 try (Connection connection = shardingDataSource.getConnection()) {
@@ -129,7 +129,7 @@ public final class ShardingMasterSlaveForPStatementWithDMLTest extends AbstractS
     
     @Test
     public void assertUpdateWithoutAlias() throws SQLException, DatabaseUnitException {
-        String sql = "UPDATE `t_order` SET `status` = ? WHERE `order_id` = ? AND `user_id` = ?";
+        String sql = "UPDATE t_order SET status = ? WHERE order_id = ? AND user_id = ?";
         for (int i = 10; i < 20; i++) {
             for (int j = 0; j < 10; j++) {
                 try (Connection connection = shardingDataSource.getConnection()) {
@@ -146,7 +146,7 @@ public final class ShardingMasterSlaveForPStatementWithDMLTest extends AbstractS
     
     @Test
     public void assertUpdateWithAlias() throws SQLException, DatabaseUnitException {
-        String sql = "UPDATE `t_order` AS o SET o.`status` = ? WHERE o.`order_id` = ? AND o.`user_id` = ?";
+        String sql = "UPDATE t_order AS o SET o.status = ? WHERE o.order_id = ? AND o.user_id = ?";
         for (int i = 10; i < 20; i++) {
             for (int j = 0; j < 10; j++) {
                 try (Connection connection = shardingDataSource.getConnection()) {
@@ -163,7 +163,7 @@ public final class ShardingMasterSlaveForPStatementWithDMLTest extends AbstractS
     
     @Test
     public void assertDeleteWithoutAlias() throws SQLException, DatabaseUnitException {
-        String sql = "DELETE `t_order` WHERE `order_id` = ? AND `user_id` = ?";
+        String sql = "DELETE t_order WHERE order_id = ? AND user_id = ?";
         for (int i = 10; i < 20; i++) {
             for (int j = 0; j < 10; j++) {
                 try (Connection connection = shardingDataSource.getConnection()) {
@@ -182,7 +182,7 @@ public final class ShardingMasterSlaveForPStatementWithDMLTest extends AbstractS
             for (int j = 0; j < 10; j++) {
                 assertDataSet(String.format("integrate/dataset/masterslave/expect/%s/master_%s.xml", expectedDataSetPattern, i),
                         shardingDataSource.getConnection().getConnection(String.format("ms_%s", i), SQLStatementType.INSERT), 
-                        String.format("t_order_%s", j), String.format("SELECT * FROM `t_order_%s` WHERE `status`=?", j), status);
+                        String.format("t_order_%s", j), String.format("SELECT * FROM t_order_%s WHERE status=?", j), status);
             }
         }
     }

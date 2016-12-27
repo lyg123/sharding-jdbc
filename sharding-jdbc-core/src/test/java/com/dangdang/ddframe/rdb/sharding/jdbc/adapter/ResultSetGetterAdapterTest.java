@@ -50,7 +50,7 @@ public final class ResultSetGetterAdapterTest extends AbstractShardingDataBasesO
     public void init() throws SQLException {
         shardingConnection = getShardingDataSource().getConnection();
         statement = shardingConnection.createStatement();
-        actual = statement.executeQuery("SELECT user_id AS `uid` FROM `t_order` WHERE `status` = 'init' ORDER BY `uid`");
+        actual = statement.executeQuery("SELECT user_id AS uid FROM t_order WHERE status = 'init' ORDER BY uid");
         actual.next();
     }
     

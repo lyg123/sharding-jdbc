@@ -45,7 +45,7 @@ public final class ShardingMasterSlaveForStatementWithDMLTest extends AbstractSh
     @Test
     public void assertUpdateWithoutShardingValue() throws SQLException, DatabaseUnitException {
         assertSelectBeforeUpdate();
-        String sql = "UPDATE `t_order` SET `status` = '%s' WHERE `status` = '%s'";
+        String sql = "UPDATE t_order SET status = '%s' WHERE status = '%s'";
         try (Connection connection = getShardingDataSource().getConnection()) {
             Statement stmt = connection.createStatement();
             assertThat(stmt.executeUpdate(String.format(sql, "updated", "init_master")), is(100));
@@ -55,7 +55,7 @@ public final class ShardingMasterSlaveForStatementWithDMLTest extends AbstractSh
     }
     
     private void assertSelectBeforeUpdate() throws SQLException, DatabaseUnitException {
-        String sql = "SELECT * FROM `t_order` WHERE `status` = '%s'";
+        String sql = "SELECT * FROM t_order WHERE status = '%s'";
         try (Connection connection = getShardingDataSource().getConnection()) {
             Statement stmt = connection.createStatement();
             assertFalse(stmt.executeQuery(String.format(sql, "updated")).next());
@@ -63,7 +63,7 @@ public final class ShardingMasterSlaveForStatementWithDMLTest extends AbstractSh
     }
     
     private void assertSelectAfterUpdate() throws SQLException, DatabaseUnitException {
-        String sql = "SELECT * FROM `t_order` WHERE `status` = '%s'";
+        String sql = "SELECT * FROM t_order WHERE status = '%s'";
         try (Connection connection = getShardingDataSource().getConnection()) {
             Statement stmt = connection.createStatement();
             assertTrue(stmt.executeQuery(String.format(sql, "updated")).next());
@@ -72,7 +72,7 @@ public final class ShardingMasterSlaveForStatementWithDMLTest extends AbstractSh
     
     @Test
     public void assertDeleteWithoutShardingValue() throws SQLException, DatabaseUnitException {
-        String sql = "DELETE `t_order` WHERE `status` = '%s'";
+        String sql = "DELETE t_order WHERE status = '%s'";
         try (Connection connection = getShardingDataSource().getConnection()) {
             Statement stmt = connection.createStatement();
             assertThat(stmt.executeUpdate(String.format(sql, "init_master")), is(100));
@@ -85,7 +85,7 @@ public final class ShardingMasterSlaveForStatementWithDMLTest extends AbstractSh
             for (int j = 0; j < 10; j++) {
                 assertDataSet(String.format("integrate/dataset/masterslave/expect/%s/master_%s.xml", expectedDataSetPattern, i),
                         shardingDataSource.getConnection().getConnection(String.format("ms_%s", i), SQLStatementType.INSERT),
-                        String.format("t_order_%s", j), String.format("SELECT * FROM `t_order_%s` WHERE `status`=?", j), status);
+                        String.format("t_order_%s", j), String.format("SELECT * FROM t_order_%s WHERE status=?", j), status);
             }
         }
     }
