@@ -45,10 +45,10 @@ public final class Main {
     public static void main(final String[] args) throws SQLException {
     // CHECKSTYLE:ON
         DataSource dataSource = getShardingDataSource();
-        printSimpleSelect(dataSource);
-        System.out.println("--------------");
-        printGroupBy(dataSource);
-        System.out.println("--------------");
+        //printSimpleSelect(dataSource);
+        //System.out.println("--------------");
+        //printGroupBy(dataSource);
+        //System.out.println("--------------");
         printHintSimpleSelect(dataSource);
     }
     
@@ -92,8 +92,10 @@ public final class Main {
             hintManager.addTableShardingValue("t_order", "order_id", 1001);
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
-                    System.out.println(rs.getInt(1));
-                    System.out.println(rs.getInt(2));
+                    System.out.print(rs.getInt(1));
+                    System.out.print("\t");
+                    System.out.print(rs.getInt(2));
+                    System.out.print("\t");
                     System.out.println(rs.getInt(3));
                 }
             }
@@ -123,7 +125,7 @@ public final class Main {
         result.setDriverClassName(com.mysql.jdbc.Driver.class.getName());
         result.setUrl(String.format("jdbc:mysql://localhost:3306/%s", dataSourceName));
         result.setUsername("root");
-        result.setPassword("");
+        result.setPassword("123456");
         return result;
     }
 }

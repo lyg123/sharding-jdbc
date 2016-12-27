@@ -26,7 +26,7 @@ public class SQLUtilTest {
     
     @Test
     public void testGetExactlyValue() throws Exception {
-        assertThat(SQLUtil.getExactlyValue("`xxx`"), is("xxx"));
+        assertThat(SQLUtil.getExactlyValue("xxx"), is("xxx"));
         assertThat(SQLUtil.getExactlyValue("[xxx]"), is("xxx"));
         assertThat(SQLUtil.getExactlyValue("\"xxx\""), is("xxx"));
         assertThat(SQLUtil.getExactlyValue("'xxx'"), is("xxx"));
